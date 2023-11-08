@@ -1,6 +1,6 @@
 {
-  "name": "nodejs-typescript",
-  "version": "1.0.0",
+  "name": "channelCompiler",
+  "version": "2.0.0",
   "description": "",
   "main": "index.ts",
   "scripts": {
