@@ -20,7 +20,7 @@ let addButton = (bot: Telegraf) => {
         cmp = "js"
       else if (a("/py")) {
         cmp = "py"
-        cmpl = "python"
+        cmpl = "py"
       }
       else if (a("/jv")) {
         cmp = "jv"
@@ -41,11 +41,24 @@ let addButton = (bot: Telegraf) => {
         return
       else if (!cmpl)
         cmpl = cmp
+let cmdcm = "\\/" + cmp
 
+     let cparr: string[] = cp.text.split(cmdcm)
+      
+      if (cparr.length > 0) {
+        for(let cp of cparr){
+          let ab = {text: cp}
+        loop(ab)
+        await sleep(5000)
+      }
+      }
+      
+
+async function loop(cp: any){
       ctx.deleteMessage().catch((err: any) => { })
 
       let firstLine: any = cp.text.trim().split('\n')[0].trim();
-      if (firstLine.match(/^(\/\/|#)/)) {
+      if (firstLine.match(/^\/\/|^#/)) {
         cp.text = cp.text.trim().replace(firstLine, "")
       }
 
@@ -56,10 +69,10 @@ let addButton = (bot: Telegraf) => {
 
       firstLine = firstLine
 .replace(/(\\)/g, "\\\\")
-.replace(/[_*[\]()~`>#+=|{}.!]/g, '\\$&');
+.replace(/[_*[\]()~`>+=|{}.!\-]/g, '\\$&');
 
       if (firstLine.match(/^(\/\/|#)/))
-        cp.text = "**" + firstLine + "**\n" + cp.text.trim();
+        cp.text = "**" + firstLine.replace(/[#]/g, "\\$&") + "**\n" + cp.text.trim();
       
 
 
@@ -85,9 +98,14 @@ let addButton = (bot: Telegraf) => {
           parse_mode: "MarkdownV2"
         }).catch((err: any) => { console.log(err) })
       }
+}
     } catch (error: any) { }
 
   })
 }
 
 export default addButton;
+
+async function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
